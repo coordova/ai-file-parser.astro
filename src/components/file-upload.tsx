@@ -23,7 +23,7 @@ interface FileUploadProps {
 	className?: string;
 }
 
-export function OxxFileUpload({
+export function FileUpload({
 	maxFiles = 5,
 	maxSize = 5, // 5MB
 	accept = "*",
