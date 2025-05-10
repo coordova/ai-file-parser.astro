@@ -14,6 +14,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { Textarea } from "./ui/textarea";
 
 interface FileUploadProps {
 	maxFiles?: number;
@@ -31,6 +32,8 @@ export function FileUpload({
 	className,
 }: FileUploadProps) {
 	const [files, setFiles] = useState<File[]>([]);
+	// State to manage drag and drop
+	const [promt, setPromt] = useState<string | null>("");
 	const [isDragging, setIsDragging] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 
@@ -107,102 +110,128 @@ export function FileUpload({
 		else return (bytes / (1024 * 1024)).toFixed(1) + " MB";
 	};
 
+	// Handle file input change
+	const onSubmit = () => {
+		console.log("Files:", files);
+		console.log("Prompt:", promt);
+
+		// TODO - Handle the file upload and prompt submission logic
+
+		if (promt) {
+			console.log("Prompt:", promt);
+		} else {
+			console.error("Prompt is empty");
+		}
+	};
+
 	return (
-		<Card className={cn("w-full", className)}>
-			<CardHeader>
-				<CardTitle>File Upload</CardTitle>
-				<CardDescription>
-					Drag and drop files or{" "}
-					<span className="text-red-500">click</span> to browse
-				</CardDescription>
-			</CardHeader>
-			<CardContent>
-				<div
-					className={cn(
-						"relative flex flex-col items-center justify-center w-full p-6 border-2 border-dashed rounded-lg transition-colors",
-						isDragging
-							? "border-primary bg-primary/5"
-							: "border-muted-foreground/25 hover:border-primary/50",
-						files.length > 0 && "pb-2"
-					)}
-					onDragOver={handleDragOver}
-					onDragLeave={handleDragLeave}
-					onDrop={handleDrop}
-				>
-					<input
-						type="file"
-						id="fileUpload"
-						multiple
-						accept={accept}
-						onChange={(e) => handleFileChange(e.target.files)}
-						className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-						aria-label="File upload"
-					/>
+		<div className="flex flex-col gap-5">
+			{/* Text area */}
+			<Textarea
+				rows={10}
+				value={promt}
+				onChange={(e) => setPromt(e.target.value)}
+			/>
 
-					<div className="flex flex-col items-center justify-center text-center">
-						<Upload className="w-10 h-10 mb-3 text-muted-foreground" />
-						<p className="mb-2 text-sm font-semibold">
-							<span className="font-bold">Click to upload</span>{" "}
-							or drag and drop
-						</p>
-						<p className="text-xs text-muted-foreground">
-							{accept === "*"
-								? "Any file format"
-								: accept.replace(/,/g, ", ")}{" "}
-							(Max: {maxSize}MB)
-						</p>
-						{error && (
-							<p className="mt-2 text-sm font-medium text-destructive">
-								{error}
-							</p>
+			<Card className={cn("w-full", className)}>
+				<CardHeader>
+					<CardTitle>File Upload</CardTitle>
+					<CardDescription>
+						Drag and drop files or{" "}
+						<span className="text-red-500">click</span> to browse
+					</CardDescription>
+				</CardHeader>
+				<CardContent>
+					<div
+						className={cn(
+							"relative flex flex-col items-center justify-center w-full p-6 border-2 border-dashed rounded-lg transition-colors",
+							isDragging
+								? "border-primary bg-primary/5"
+								: "border-muted-foreground/25 hover:border-primary/50",
+							files.length > 0 && "pb-2"
 						)}
-					</div>
-				</div>
+						onDragOver={handleDragOver}
+						onDragLeave={handleDragLeave}
+						onDrop={handleDrop}
+					>
+						<input
+							type="file"
+							id="fileUpload"
+							multiple
+							accept={accept}
+							onChange={(e) => handleFileChange(e.target.files)}
+							className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+							aria-label="File upload"
+						/>
 
-				{files.length > 0 && (
-					<div className="mt-4 space-y-2">
-						{files.map((file, index) => (
-							<div
-								key={`${file.name}-${index}`}
-								className="flex items-center justify-between p-2 bg-muted/50 rounded-md"
-							>
-								<div className="flex items-center space-x-2 overflow-hidden">
-									<File className="flex-shrink-0 w-4 h-4 text-primary" />
-									<div className="flex-1 min-w-0">
-										<p className="text-sm font-medium truncate">
-											{file.name}
-										</p>
-										<p className="text-xs text-muted-foreground">
-											{formatFileSize(file.size)}
-										</p>
-									</div>
-								</div>
-								<Button
-									variant="ghost"
-									size="icon"
-									onClick={() => removeFile(index)}
-									className="flex-shrink-0"
-									aria-label={`Remove ${file.name}`}
-								>
-									<X className="w-4 h-4" />
-								</Button>
-							</div>
-						))}
+						<div className="flex flex-col items-center justify-center text-center">
+							<Upload className="w-10 h-10 mb-3 text-muted-foreground" />
+							<p className="mb-2 text-sm font-semibold">
+								<span className="font-bold">
+									Click to upload
+								</span>{" "}
+								or drag and drop
+							</p>
+							<p className="text-xs text-muted-foreground">
+								{accept === "*"
+									? "Any file format"
+									: accept.replace(/,/g, ", ")}{" "}
+								(Max: {maxSize}MB)
+							</p>
+							{error && (
+								<p className="mt-2 text-sm font-medium text-destructive">
+									{error}
+								</p>
+							)}
+						</div>
 					</div>
-				)}
-			</CardContent>
-			<CardFooter className="flex justify-between">
-				<p className="text-xs text-muted-foreground">
-					{files.length} of {maxFiles} files
-				</p>
-				{files.length > 0 && (
-					<Button size="sm" className="gap-1">
-						<CheckCircle2 className="w-4 h-4" />
-						Upload {files.length}{" "}
-						{files.length === 1 ? "file" : "files"}
-					</Button>
-				)}
-			</CardFooter>
-		</Card>
+
+					{files.length > 0 && (
+						<div className="mt-4 space-y-2">
+							{files.map((file, index) => (
+								<div
+									key={`${file.name}-${index}`}
+									className="flex items-center justify-between p-2 bg-muted/50 rounded-md"
+								>
+									<div className="flex items-center space-x-2 overflow-hidden">
+										<File className="flex-shrink-0 w-4 h-4 text-primary" />
+										<div className="flex-1 min-w-0">
+											<p className="text-sm font-medium truncate">
+												{file.name}
+											</p>
+											<p className="text-xs text-muted-foreground">
+												{formatFileSize(file.size)}
+											</p>
+										</div>
+									</div>
+									<Button
+										variant="ghost"
+										size="icon"
+										onClick={() => removeFile(index)}
+										className="flex-shrink-0"
+										aria-label={`Remove ${file.name}`}
+									>
+										<X className="w-4 h-4" />
+									</Button>
+								</div>
+							))}
+						</div>
+					)}
+				</CardContent>
+				<CardFooter className="flex justify-between">
+					<p className="text-xs text-muted-foreground">
+						{files.length} of {maxFiles} files
+					</p>
+					{files.length > 0 && (
+						<Button size="sm" className="gap-1">
+							<CheckCircle2 className="w-4 h-4" />
+							Upload {files.length}{" "}
+							{files.length === 1 ? "file" : "files"}
+						</Button>
+					)}
+				</CardFooter>
+			</Card>
+			<Button onClick={onsubmit}>Submit</Button>
+		</div>
 	);
 }
