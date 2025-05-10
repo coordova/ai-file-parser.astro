@@ -112,7 +112,8 @@ export function FileUpload({
 			<CardHeader>
 				<CardTitle>File Upload</CardTitle>
 				<CardDescription>
-					Drag and drop files or click to browse
+					Drag and drop files or{" "}
+					<span className="text-red-500">click</span> to browse
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
