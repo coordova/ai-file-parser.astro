@@ -7,6 +7,7 @@ export const getAiResult = async (prompt: string, file: File) => {
 	// leemos el archivo
 	const arrayBuffer = await file.arrayBuffer();
 	const base64string = Buffer.from(arrayBuffer).toString("base64");
+	// console.log(base64string);
 	const result = await generateText({
 		model: google("gemini-1.5-flash"),
 		messages: [
@@ -27,6 +28,6 @@ export const getAiResult = async (prompt: string, file: File) => {
 		],
 	});
 
-	console.log(result);
+	// console.log(result);
 	return result.steps[0].text;
 };

@@ -15,7 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Textarea } from "./ui/textarea";
-import { getAiResult } from "server/ai";
+import { getAiResult } from "server/ai"; // importamos la funcion de ai
 
 interface FileUploadProps {
   maxFiles?: number;
@@ -123,9 +123,10 @@ export function FileUpload({
       const result = await getAiResult(promt, files[0]);
       setAiResult(result);
       setIsLoading(false);
-      //   console.log("Prompt:", promt);
-      //   console.log("Files:", files);
-      //   console.log("Result:", result);
+
+      console.log("Prompt:", promt);
+      console.log("Files:", files);
+      console.log("Result:", result);
     } else {
       console.error("Prompt is empty");
     }
