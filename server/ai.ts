@@ -1,3 +1,4 @@
+"use server";
 import { google } from "@ai-sdk/google";
 import { generateText } from "ai";
 
@@ -26,5 +27,6 @@ export const getAiResult = async (prompt: string, file: File) => {
 		],
 	});
 
-	return result;
+	console.log(result);
+	return result.steps[0].text;
 };
