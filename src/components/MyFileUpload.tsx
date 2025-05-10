@@ -1,6 +1,6 @@
 import { FileUpload } from "@/components/file-upload";
 
-export default function OxxFileUpload() {
+export default function MyFileUpload() {
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center p-4 md:p-24">
 			<div className="w-full max-w-md">
