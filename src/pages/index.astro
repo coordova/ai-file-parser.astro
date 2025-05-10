@@ -1,7 +1,10 @@
 ---
-// import Welcome from '../components/Welcome.astro';
+import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 import MyFileUpload from '../components/MyFileUpload';
+import OneComponent from '@/components/OneComponent';
+// add tailwindcss to the project
+import "@/styles/global.css";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
@@ -9,5 +12,6 @@ import MyFileUpload from '../components/MyFileUpload';
 
 <Layout>
 	<!-- <Welcome /> -->
+	 <!-- <OneComponent client:load /> -->
 	 <MyFileUpload client:load />
 </Layout>
