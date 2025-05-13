@@ -17,6 +17,9 @@ import {
 import { Textarea } from "./ui/textarea";
 import { getAiResult } from "server/ai"; // importamos la funcion de ai
 
+// importamos react-markdown para convertir a markdown (https://github.com/remarkjs/react-markdown)
+import ReactMarkdown from "react-markdown";
+
 interface FileUploadProps {
   maxFiles?: number;
   maxSize?: number; // in MB
@@ -114,21 +117,38 @@ export function FileUpload({
     else return (bytes / (1024 * 1024)).toFixed(1) + " MB";
   };
 
+  // using marked - cdn de marked github: https://github.com/markedjs/marked
+  // <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>;
+
   // Handle file input change
   const onSubmit = async () => {
+    if (promt === null || promt === "") {
+      setError("Prompt is required");
+      return;
+    }
+
+    if (files.length === 0) {
+      setError("At least one file is required");
+      return;
+    }
+
     // TODO - Handle the file upload and prompt submission logic
+    let rs = `# Hola Mundo!\nEste es un ejemplo de Markdown.\n\n* Esto es una lista.\n* Otro elemento.`;
 
     if (promt !== null && promt !== "" && files.length > 0) {
       setIsLoading(true);
-      const result = await getAiResult(promt, files[0]);
-      setAiResult(result);
+      try {
+        const result = marked.parse(rs); // await getAiResult(promt, files[0]);
+        setAiResult(result);
+      } catch (error) {
+        console.error("Error getting AI result:", error);
+      }
       setIsLoading(false);
 
       console.log("Prompt:", promt);
       console.log("Files:", files);
-      console.log("Result:", result);
     } else {
-      console.error("Prompt is empty");
+      console.error("Prompt is empty or files is empty");
     }
   };
 
@@ -137,19 +157,20 @@ export function FileUpload({
       {/* Mostrar el resultado si hay un resultado */}
       {aiResult && (
         <div className="flex flex-col items-center gap-5">
-          <p
-            id="aiResult"
-            className="text-sm text-muted-foreground max-w-[500px] text-center"
+          <div
+            id="ai-result"
+            className="text-sm text-muted-foreground max-w-[500px]"
           >
-            {aiResult}
-          </p>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setAiResult(null)}
-          >
-            Clear
-          </Button>
+            {/* <ReactMarkdown>{aiResult}</ReactMarkdown> */}
+            <div dangerouslySetInnerHTML={{ __html: aiResult }} />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setAiResult(null)}
+            >
+              Clear
+            </Button>
+          </div>
         </div>
       )}
       {/* Mostrar el textarea, la Card y el boton si no hay un resultado */}

@@ -16,7 +16,11 @@ import "@/styles/global.css";
   <MyFileUpload client:load />
 
   <!-- agregamos un cdn de una libreria para convertir a markdown -->
-  <script type="module" is:inline>
+  <script
+    is:inline
+    src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"
+  ></script>
+  <script type="module">
     /* import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
     document.getElementById("aiResult").innerHTML = marked.parse(
       "# Marked in the browser\n\nRendered by **marked**."
