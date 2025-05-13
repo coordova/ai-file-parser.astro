@@ -4,7 +4,7 @@ import { generateText } from "ai";
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 
 const googleGenerativeAI = createGoogleGenerativeAI({
-	apiKey: import.meta.env.PUBLIC_GOOGLE_GENERATIVE_AI_API_KEY,
+	apiKey: import.meta.env.GOOGLE_GENERATIVE_AI_API_KEY,
 });
 
 // Función para convertir ArrayBuffer a base64 sin Buffer

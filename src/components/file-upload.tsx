@@ -137,7 +137,10 @@ export function FileUpload({
       {/* Mostrar el resultado si hay un resultado */}
       {aiResult && (
         <div className="flex flex-col items-center gap-5">
-          <p className="text-sm text-muted-foreground max-w-[500px] text-center">
+          <p
+            id="aiResult"
+            className="text-sm text-muted-foreground max-w-[500px] text-center"
+          >
             {aiResult}
           </p>
           <Button

@@ -1,8 +1,8 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-import MyFileUpload from '../components/MyFileUpload';
-import OneComponent from '@/components/OneComponent';
+import Welcome from "../components/Welcome.astro";
+import Layout from "../layouts/Layout.astro";
+import MyFileUpload from "../components/MyFileUpload";
+import OneComponent from "@/components/OneComponent";
 // add tailwindcss to the project
 import "@/styles/global.css";
 
@@ -11,7 +11,15 @@ import "@/styles/global.css";
 ---
 
 <Layout>
-	<!-- <Welcome /> -->
-	 <!-- <OneComponent client:load /> -->
-	 <MyFileUpload client:load />
+  <!-- <Welcome /> -->
+  <!-- <OneComponent client:load /> -->
+  <MyFileUpload client:load />
+
+  <!-- agregamos un cdn de una libreria para convertir a markdown -->
+  <script type="module" is:inline>
+    /* import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
+    document.getElementById("aiResult").innerHTML = marked.parse(
+      "# Marked in the browser\n\nRendered by **marked**."
+    ); */
+  </script>
 </Layout>
