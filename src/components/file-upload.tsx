@@ -133,12 +133,15 @@ export function FileUpload({
     }
 
     // TODO - Handle the file upload and prompt submission logic
-    let rs = `# Hola Mundo!\nEste es un ejemplo de Markdown.\n\n* Esto es una lista.\n* Otro elemento.`;
+    // let rs = `# Hola Mundo!\nEste es un ejemplo de Markdown.\n\n* Esto es una lista.\n* Otro elemento.`;
 
     if (promt !== null && promt !== "" && files.length > 0) {
       setIsLoading(true);
       try {
-        const result = marked.parse(rs); // await getAiResult(promt, files[0]);
+        const result = /* marked.parse(rs); //  */ await getAiResult(
+          promt,
+          files[0]
+        );
         setAiResult(result);
       } catch (error) {
         console.error("Error getting AI result:", error);
@@ -161,8 +164,8 @@ export function FileUpload({
             id="ai-result"
             className="text-sm text-muted-foreground max-w-[500px]"
           >
-            {/* <ReactMarkdown>{aiResult}</ReactMarkdown> */}
-            <div dangerouslySetInnerHTML={{ __html: aiResult }} />
+            <ReactMarkdown>{aiResult}</ReactMarkdown>
+            {/* <div dangerouslySetInnerHTML={{ __html: aiResult }} /> */}
             <Button
               variant="outline"
               size="sm"
